@@ -60,4 +60,10 @@ def update(request, pk):
         return render(request, 'articles/form.html', context)
     else:
         return redirect('articles:detail', article.pk)
+
+def delete(request, pk):
+    article = Article.objects.get(pk=pk)
+    article.delete()
+    return redirect('articles:index')
+
     
