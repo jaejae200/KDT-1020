@@ -10,15 +10,15 @@
       {% for article in user.article_set.all %}
         <p>{{ forloop.counter }}</p>
         <a href="{% url 'articles:detail' article.pk %}">{{ article.title }}</a>
-      </div>
-      <div>
-        <h3>작성한 댓글</h3>
-        <p>{{ user.comment_set.count }}개를 작성하였습니다</p>
-        {% for comment in user.comment_set.all %}
-          <p>{{ forloop.counter }}</p>
-          <a href="{% url 'articles:detail' comment.article_id %}">{{ comment.content }}</a>
-        {% endfor %}
-      </div>
+      {% endfor %}
     </div>
-
-  {% endblock %}
+    <div>
+      <h3>작성한 댓글</h3>
+      <p>{{ user.comment_set.count }}개를 작성하였습니다</p>
+      {% for comment in user.comment_set.all %}
+        <p>{{ forloop.counter }}</p>
+        <a href="{% url 'articles:detail' comment.article_id %}">{{ comment.content }}</a>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock body %}

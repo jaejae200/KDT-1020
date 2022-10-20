@@ -1,3 +1,4 @@
+from xml.etree.ElementTree import Comment
 from django.shortcuts import render, redirect
 from .models import Article, Comment as Comment_model
 from .forms import ArticleForm, CommentForm
@@ -38,7 +39,7 @@ def detail(request, pk):
     context = {
         'article' : article,
         'comments' : article.comment_set.all(),
-        'comments_form' : comment_form, 
+        'comment_form' : comment_form, 
     }
     return render(request, 'articles/detail.html', context)
 
@@ -75,7 +76,7 @@ def comment_create(request, pk):
         comment.article = article
         comment.user = request.user
         comment.save()
-    return redirect('articles.detail', article.pk)
+    return redirect('articles:detail', article.pk)
 
 
 def comment_delete(request, article_pk, comment_pk):

@@ -42,7 +42,7 @@ def logout(request):
     return redirect('articles:index')
 
 def detail(request, pk):
-    user = get_user_model.objects.get(pk=pk)
+    user = get_user_model().objects.get(pk=pk)
     context = {
         'user' : user
     }
