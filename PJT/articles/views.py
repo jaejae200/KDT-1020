@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Article
-from .forms import ArticleForm
+from .forms import ArticleForm, CommentForm
 
 # Create your views here.
 
@@ -29,3 +29,14 @@ def create(request):
         'form' : form
     }
     return render(request, 'articles/form.html', context)
+
+def detail(request, pk):
+    article = Article.objects.get(pk=pk)
+    comment_form = CommentForm()
+
+    context = {
+        'article' : article,
+        'comments' : article.comment_set.all(),
+        'comments_form' : comment_form, 
+    }
+    return render(request, 'articles/detail.html', context)
