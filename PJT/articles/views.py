@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Article
 from .forms import ArticleForm, CommentForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -40,3 +41,23 @@ def detail(request, pk):
         'comments_form' : comment_form, 
     }
     return render(request, 'articles/detail.html', context)
+
+@login_required
+def update(request, pk):
+    article = Article.objects.get(pk=pk)
+    if request.user == article.user:
+        if request.method == 'POST':
+            form = ArticleForm(request.POST, request.FILES, instance=article)
+            if form.is_valid():
+                form.save()
+                return redirect('articles:detail', article.pk)
+        else: 
+            form = ArticleForm(instance=article)
+
+        context = {
+            'form' : form
+        }
+        return render(request, 'articles/form.html', context)
+    else:
+        return redirect('articles:detail', article.pk)
+    
