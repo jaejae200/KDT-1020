@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Article
+from .models import Article, Comment as Comment_model
 from .forms import ArticleForm, CommentForm
 from django.contrib.auth.decorators import login_required
 
@@ -77,4 +77,9 @@ def comment_create(request, pk):
         comment.save()
     return redirect('articles.detail', article.pk)
 
+
+def comment_delete(request, article_pk, comment_pk):
+    comment = Comment_model.objects.get(pk=comment_pk)
+    comment.delete()
+    return redirect('articles:detail', article_pk)
     
